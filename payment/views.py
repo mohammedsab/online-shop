@@ -13,7 +13,7 @@ stripe.api_version = settings.STRIPE_API_VERSION
 
 
 def payment_process(request):
-    print('*'*30, request.session.all())
+    # print('*'*30, request.session.all())
     order_id = request.session.get('order_id', None)
     order = get_object_or_404(Order, pk=order_id)
 
@@ -26,7 +26,7 @@ def payment_process(request):
             'mode': 'payment',
             'client_reference_id': order.id,
             'success_url': success_url,
-            'canceled_url': canceled_url,
+            'cancel_url': canceled_url,
             'line_items': [],
         }
 
