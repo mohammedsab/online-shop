@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Registeration
+{% endblock title %}
+
+{% block content %}
+    From sing up registration
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Sign up</button>
+    </form>
+{% endblock content %}
+    
