@@ -116,8 +116,10 @@ STRIPE_PUBLISHABLE_KEY = 'pk_test_51MViXpK27oNnwjn1UNgcplGjpUW5g0y3RolC32zalQRd3
 STRIPE_SECRET_KEY = 'sk_test_51MViXpK27oNnwjn1myFhGkhkrxp5PBXtrxev2Ad52YvksbMx17qa8NrkvipGGb8Y0CEShzsulj5DTr3fB0iSbeke00Qrfs6Qvq'
 # https://stripe.com/docs/upgrades#2022-08-01 we use the version number
 STRIPE_API_VERSION = '2022-08-01'
+# This is your Stripe CLI webhook secret for testing your endpoint locally.
+STRIPE_WEBHOOK_SECRET = 'whsec_aa1732081168b97e004baa9327a6f887b9a10f8e41f37cfa6e634537d96ea69f'
 
-# Media 
+# Media
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
