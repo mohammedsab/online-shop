@@ -9,11 +9,11 @@ from orders.models import Order
 @csrf_exempt
 def stripe_webhook(request):
     event = None
-    payload = request.body
+    payload = request.body.decode('utf-8')
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
 
     try:
-        event = stripe.webhook.construct_event(
+        event = stripe.Webhook.construct_event(
             payload,
             sig_header,
             settings.STRIPE_WEBHOOK_SECRET,
@@ -27,6 +27,7 @@ def stripe_webhook(request):
     
     if event.type == 'checkout.session.completed':
         session = event.data.object
+        # print('we *************************************************')
         if session.mode == 'payment' and session.payment_status == 'paid':
             try:
                 order = Order.objects.get(id=session.client_reference_id)
