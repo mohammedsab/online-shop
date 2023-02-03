@@ -27,14 +27,14 @@ def stripe_webhook(request):
     
     if event.type == 'checkout.session.completed':
         session = event.data.object
-        # print('we *************************************************')
         if session.mode == 'payment' and session.payment_status == 'paid':
             try:
                 order = Order.objects.get(id=session.client_reference_id)
             except Order.DoesNotExist:
                 return HttpResponse(status=404)
-            # Make order as paid
+            # Make order as paid and add stripe_id
             order.paid = True
+            order.stripe_id = session.payment_intent
             order.save()
     
     return HttpResponse(status=200)
