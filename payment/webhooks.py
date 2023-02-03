@@ -4,7 +4,22 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from orders.models import Order
+from .tasks import payment_completed
 
+"""
+Run stripe after installing
+stripe login 
+after login --->
+stripe listen --forward-to localhost:8000/payment/webhook/
+"""
+
+"""
+To run rabbitmq on docker
+docker run -d -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:management
+
+to run celery
+celery -A core worker -l info
+"""
 
 @csrf_exempt
 def stripe_webhook(request):
@@ -36,5 +51,8 @@ def stripe_webhook(request):
             order.paid = True
             order.stripe_id = session.payment_intent
             order.save()
+            
+            # Launch asynchronouns task
+            payment_completed.delay(order.id)
     
     return HttpResponse(status=200)
